@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Application</string>
+    <!-- TODO: Remove or change this placeholder text -->>
+    <string name="Header">Header</string>
+    <string name="Sample_text">Sample text, sample text, sample text, sample text</string>
+    <string name="Subhead">Subhead</string>
+</resources>
