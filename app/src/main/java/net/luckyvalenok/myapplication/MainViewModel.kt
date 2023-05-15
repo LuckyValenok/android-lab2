@@ -9,31 +9,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel : ViewModel() {
-
     val errorMessage = MutableLiveData<String>()
     val cards = MutableLiveData<List<CardInfo>>()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = RetrofitService.getInstance().getCards()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     cards.postValue(response.body())
                 } else {
-                    onError("Error : ${response.message()} ")
+                    errorMessage.postValue("Error : ${response.message()} ")
                 }
             }
         }
     }
-
-    private fun onError(message: String) {
-        errorMessage.postValue(message)
-    }
-
-    class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel() as T
-        }
-    }
-
 }

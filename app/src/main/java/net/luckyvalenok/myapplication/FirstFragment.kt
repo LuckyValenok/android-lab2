@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.luckyvalenok.myapplication.databinding.FirstFragmentBinding
 
 class FirstFragment : Fragment() {
-    private lateinit var binding: FirstFragmentBinding
     private lateinit var viewModel: MainViewModel
     private val cardAdapter = CardAdapter()
 
@@ -21,7 +19,7 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FirstFragmentBinding.inflate(inflater, container, false)
+        val binding: FirstFragmentBinding = FirstFragmentBinding.inflate(inflater, container, false)
 
         binding.items.apply {
             layoutManager = LinearLayoutManager(context)
@@ -32,11 +30,10 @@ class FirstFragment : Fragment() {
                     resources.getDimensionPixelSize(R.dimen.default_padding)
                 )
             )
-            itemAnimator = DefaultItemAnimator()
             adapter = cardAdapter
         }
 
-        viewModel = ViewModelProvider(this, MainViewModel.Factory())[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         viewModel.cards.observe(viewLifecycleOwner) {
             cardAdapter.submitList(CardType.getFromListRequest(it))

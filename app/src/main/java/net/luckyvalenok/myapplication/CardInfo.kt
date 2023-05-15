@@ -11,8 +11,6 @@ data class CardInfo(
 )
 
 sealed class CardType(open val title: String, open val subtitle: String) {
-    val id: Int = genId++
-
     data class WithTitleAndSubtitle(override val title: String, override val subtitle: String) :
         CardType(title, subtitle)
 
@@ -34,8 +32,6 @@ sealed class CardType(open val title: String, open val subtitle: String) {
     ) : CardType(title, subtitle)
 
     companion object {
-        var genId = 1
-
         private fun getFromRequest(request: CardInfo): CardType {
             return if (request.image == null) {
                 WithTitleAndSubtitle(request.title, request.subtitle)
